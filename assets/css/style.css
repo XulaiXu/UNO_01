@@ -310,6 +310,7 @@ main {
 \*-----------------------------------*/
 
 .sidebar {
+  width: 300px; /* Increase this value as needed */
   margin-bottom: 15px;
   max-height: 112px;
   overflow: hidden;
@@ -324,6 +325,7 @@ main {
   justify-content: flex-start;
   align-items: center;
   gap: 15px;
+  width: 100%; /* Ensure it takes up the full width of the sidebar */
 }
 
 .avatar-box {
