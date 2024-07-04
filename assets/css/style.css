@@ -411,8 +411,10 @@ main {
 }
 
 .contact-info {
-  max-width: calc(100% - 50px);
-  width: calc(100% - 50px);
+  max-width: none;  /* Remove any maximum width constraints */
+  width: auto;  /* Allow the width to be determined by the content */
+  /* max-width: calc(100% - 50px); */
+  /*width: calc(100% - 50px);*/
 }
 
 .contact-title {
