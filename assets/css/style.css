@@ -417,6 +417,13 @@ main {
   /*width: calc(100% - 50px);*/
 }
 
+.contact-link {
+  display: block;
+  white-space: nowrap;  /* Prevent the email address from breaking into multiple lines */
+  overflow: hidden;
+  text-overflow: ellipsis;  /* Add ellipsis if the text overflows */
+}
+
 .contact-title {
   color: var(--light-gray-70);
   font-size: var(--fs-8);
