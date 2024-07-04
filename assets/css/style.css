@@ -420,7 +420,7 @@ main {
 .contact-link {
   display: block;
   white-space: nowrap;  /* Prevent the email address from breaking into multiple lines */
-  overflow: hidden;
+  overflow: visible;
   text-overflow: ellipsis;  /* Add ellipsis if the text overflows */
 }
 
