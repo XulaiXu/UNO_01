@@ -2,14 +2,9 @@
   #style.css
 \*-----------------------------------*/
 
-
 /**
  * copyright 2022 @codewithsadee
  */
-
-
-
-
 
 /*-----------------------------------*\
   #CUSTOM PROPERTY
@@ -421,7 +416,9 @@ main {
   display: block;
   white-space: nowrap;  /* Prevent the email address from breaking into multiple lines */
   overflow: visible;
-  text-overflow: ellipsis;  /* Add ellipsis if the text overflows */
+  /* text-overflow: ellipsis;  /* Add ellipsis if the text overflows */ 
+  text-overflow: initial;  /* Disable text overflow ellipsis */
+
 }
 
 .contact-title {
