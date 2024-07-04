@@ -310,7 +310,7 @@ main {
 \*-----------------------------------*/
 
 .sidebar {
-  width: 300px; /* Increase this value as needed */
+  width: 500px; /* Increase this value as needed */
   margin-bottom: 15px;
   max-height: 112px;
   overflow: hidden;
