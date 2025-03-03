@@ -6,8 +6,16 @@ require('dotenv').config();
 
 const app = express();
 
+// CORS configuration
+const corsOptions = {
+  origin: ['https://xulaixu.com', 'http://localhost:3000'],
+  methods: ['GET', 'POST'],
+  credentials: true,
+  optionsSuccessStatus: 204
+};
+
 // Middleware
-app.use(cors());
+app.use(cors(corsOptions));
 app.use(express.json());
 app.use(express.static('.')); // Serve static files from current directory
 

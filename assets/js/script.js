@@ -142,8 +142,12 @@ form.addEventListener("submit", async function(e) {
     message: form.message.value
   };
 
+  const serverUrl = window.location.hostname === 'localhost' 
+    ? 'http://localhost:3000' 
+    : 'https://xulaixu.com';
+
   try {
-    const response = await fetch('http://localhost:3000/submit-message', {
+    const response = await fetch(`${serverUrl}/submit-message`, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
