@@ -123,16 +123,48 @@ const formBtn = document.querySelector("[data-form-btn]");
 // add event to all form input field
 for (let i = 0; i < formInputs.length; i++) {
   formInputs[i].addEventListener("input", function () {
-
     // check form validation
     if (form.checkValidity()) {
       formBtn.removeAttribute("disabled");
     } else {
       formBtn.setAttribute("disabled", "");
     }
-
   });
 }
+
+// Handle form submission
+form.addEventListener("submit", async function(e) {
+  e.preventDefault();
+  
+  const formData = {
+    fullname: form.fullname.value,
+    email: form.email.value,
+    message: form.message.value
+  };
+
+  try {
+    const response = await fetch('/submit-message', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify(formData)
+    });
+
+    const result = await response.json();
+    
+    if (response.ok) {
+      alert('Message sent successfully!');
+      form.reset();
+      formBtn.setAttribute("disabled", "");
+    } else {
+      alert('Error sending message: ' + result.error);
+    }
+  } catch (error) {
+    console.error('Error:', error);
+    alert('Error sending message. Please try again later.');
+  }
+});
 
 
 

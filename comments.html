@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Comments Section - Xulai Xu</title>
+    <link rel="shortcut icon" href="./assets/images/iconX2.ico" type="image/x-icon">
+    <style>
+        body {
+            font-family: 'Poppins', sans-serif;
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 20px;
+            background-color: #f5f5f5;
+        }
+        .comment {
+            background-color: white;
+            padding: 20px;
+            margin-bottom: 20px;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+        .comment-header {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 10px;
+            color: #666;
+        }
+        .comment-name {
+            font-weight: bold;
+            color: #333;
+        }
+        .comment-message {
+            line-height: 1.6;
+        }
+        .timestamp {
+            font-size: 0.9em;
+            color: #888;
+        }
+        h1 {
+            color: #333;
+            text-align: center;
+            margin-bottom: 40px;
+        }
+        .back-button {
+            display: inline-block;
+            padding: 10px 20px;
+            background-color: #007bff;
+            color: white;
+            text-decoration: none;
+            border-radius: 5px;
+            margin-bottom: 20px;
+        }
+        .back-button:hover {
+            background-color: #0056b3;
+        }
+    </style>
+</head>
+<body>
+    <a href="/" class="back-button">← Back to Portfolio</a>
+    <h1>Comments Section</h1>
+    <div id="comments-container"></div>
+
+    <script>
+        async function loadComments() {
+            try {
+                const response = await fetch('/api/messages');
+                const messages = await response.json();
+                
+                const container = document.getElementById('comments-container');
+                container.innerHTML = messages.map(message => `
+                    <div class="comment">
+                        <div class="comment-header">
+                            <span class="comment-name">${message.fullname}</span>
+                            <span class="timestamp">${new Date(message.timestamp).toLocaleString()}</span>
+                        </div>
+                        <div class="comment-message">${message.message}</div>
+                    </div>
+                `).join('');
+            } catch (error) {
+                console.error('Error loading comments:', error);
+            }
+        }
+
+        // Load comments when page loads
+        loadComments();
+
+        // Refresh comments every 30 seconds
+        setInterval(loadComments, 30000);
+    </script>
+</body>
+</html> 
