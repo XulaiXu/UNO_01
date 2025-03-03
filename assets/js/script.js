@@ -143,7 +143,7 @@ form.addEventListener("submit", async function(e) {
   };
 
   try {
-    const response = await fetch('/submit-message', {
+    const response = await fetch('http://localhost:3000/submit-message', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
