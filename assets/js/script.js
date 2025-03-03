@@ -142,31 +142,47 @@ form.addEventListener("submit", async function(e) {
     message: form.message.value
   };
 
-  const serverUrl = window.location.hostname === 'localhost' 
-    ? 'http://localhost:3000' 
-    : 'https://xulaixu.com';
+  console.log('=== Form Submission Started ===');
+  console.log('Form data:', formData);
+
+  const serverUrl = 'http://localhost:3000';
+  const url = `${serverUrl}/submit-message`;
+  
+  console.log('Sending request to:', url);
 
   try {
-    const response = await fetch(`${serverUrl}/submit-message`, {
+    console.log('Making fetch request...');
+    const response = await fetch(url, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
+        'Accept': 'application/json'
       },
       body: JSON.stringify(formData)
     });
 
+    console.log('Response received');
+    console.log('Response status:', response.status);
+    console.log('Response headers:', response.headers);
+
     const result = await response.json();
+    console.log('Response data:', result);
     
     if (response.ok) {
+      console.log('Request successful');
       alert('Message sent successfully!');
       form.reset();
       formBtn.setAttribute("disabled", "");
     } else {
-      alert('Error sending message: ' + result.error);
+      console.error('Server returned error:', result);
+      alert('Error sending message: ' + (result.error || 'Unknown error'));
     }
   } catch (error) {
-    console.error('Error:', error);
-    alert('Error sending message. Please try again later.');
+    console.error('=== Error Details ===');
+    console.error('Error name:', error.name);
+    console.error('Error message:', error.message);
+    console.error('Full error:', error);
+    alert('Error sending message. Please try again later. Error: ' + error.message);
   }
 });
 
