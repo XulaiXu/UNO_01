@@ -145,6 +145,21 @@ form.addEventListener("submit", async function(e) {
   console.log('=== Form Submission Started ===');
   console.log('Form data:', formData);
 
+  // First, test if the server is reachable
+  try {
+    console.log('Testing server connection...');
+    const testResponse = await fetch('http://localhost:3000/test');
+    if (!testResponse.ok) {
+      throw new Error('Server test failed');
+    }
+    const testResult = await testResponse.json();
+    console.log('Server test successful:', testResult);
+  } catch (error) {
+    console.error('Server test failed:', error);
+    alert('Cannot connect to server. Please make sure the server is running.');
+    return;
+  }
+
   const serverUrl = 'http://localhost:3000';
   const url = `${serverUrl}/submit-message`;
   
@@ -158,12 +173,13 @@ form.addEventListener("submit", async function(e) {
         'Content-Type': 'application/json',
         'Accept': 'application/json'
       },
-      body: JSON.stringify(formData)
+      body: JSON.stringify(formData),
+      mode: 'cors' // Explicitly set CORS mode
     });
 
     console.log('Response received');
     console.log('Response status:', response.status);
-    console.log('Response headers:', response.headers);
+    console.log('Response headers:', Array.from(response.headers.entries()));
 
     const result = await response.json();
     console.log('Response data:', result);
@@ -182,7 +198,7 @@ form.addEventListener("submit", async function(e) {
     console.error('Error name:', error.name);
     console.error('Error message:', error.message);
     console.error('Full error:', error);
-    alert('Error sending message. Please try again later. Error: ' + error.message);
+    alert('Error sending message. Please check the browser console for details.');
   }
 });
 

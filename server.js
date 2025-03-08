@@ -1,5 +1,5 @@
 const express = require('express');
-const mongoose = require('mongoose');
+const { Sequelize, DataTypes } = require('sequelize');
 const cors = require('cors');
 const path = require('path');
 require('dotenv').config();
@@ -7,64 +7,75 @@ require('dotenv').config();
 const app = express();
 
 // CORS configuration
-const corsOptions = {
-  origin: ['https://xulaixu.com', 'http://localhost:3000', 'http://127.0.0.1:3000', 'http://localhost:5500'],
-  methods: ['GET', 'POST'],
+app.use(cors({
+  origin: '*', // Allow all origins for testing
+  methods: ['GET', 'POST', 'OPTIONS'],
+  allowedHeaders: ['Content-Type', 'Accept'],
   credentials: true,
   optionsSuccessStatus: 204
-};
+}));
 
 // Middleware
-app.use(cors(corsOptions));
 app.use(express.json());
 app.use(express.static('.')); // Serve static files from current directory
 
 // Add request logging middleware
 app.use((req, res, next) => {
-  console.log(`${new Date().toISOString()} - ${req.method} ${req.url}`);
+  console.log('=== Incoming Request ===');
+  console.log('Time:', new Date().toISOString());
+  console.log('Method:', req.method);
+  console.log('URL:', req.url);
+  console.log('Headers:', req.headers);
+  console.log('Body:', req.body);
   next();
 });
 
-// MongoDB connection with timeout and better error handling
-const connectWithRetry = async () => {
+// Database setup
+const sequelize = new Sequelize(process.env.DATABASE_URL, {
+  dialect: 'postgres',
+  logging: console.log // Enable query logging
+});
+
+// Message Model
+const Message = sequelize.define('Message', {
+  fullname: {
+    type: DataTypes.STRING,
+    allowNull: false
+  },
+  email: {
+    type: DataTypes.STRING,
+    allowNull: false
+  },
+  message: {
+    type: DataTypes.TEXT,
+    allowNull: false
+  }
+}, {
+  timestamps: true // Adds createdAt and updatedAt fields
+});
+
+// Initialize database
+const initDatabase = async () => {
   try {
-    await mongoose.connect(process.env.MONGODB_URI, {
-      useNewUrlParser: true,
-      useUnifiedTopology: true,
-      serverSelectionTimeoutMS: 5000, // 5 second timeout
-      socketTimeoutMS: 5000,
-    });
-    console.log('Connected to MongoDB');
-  } catch (err) {
-    console.error('MongoDB connection error:', err);
-    console.log('Retrying connection in 5 seconds...');
-    setTimeout(connectWithRetry, 5000);
+    await sequelize.authenticate();
+    console.log('Connected to PostgreSQL');
+    
+    // Sync database (create tables if they don't exist)
+    await sequelize.sync();
+    console.log('Database synchronized');
+  } catch (error) {
+    console.error('Database connection error:', error);
+    process.exit(1);
   }
 };
 
-connectWithRetry();
-
-// Message Schema
-const messageSchema = new mongoose.Schema({
-  fullname: String,
-  email: String,
-  message: String,
-  timestamp: { type: Date, default: Date.now }
-}, { timestamps: true });
-
-const Message = mongoose.model('Message', messageSchema);
+initDatabase();
 
 // Routes
 app.post('/submit-message', async (req, res) => {
   console.log('=== Received message submission ===');
   console.log('Headers:', req.headers);
   console.log('Body:', req.body);
-  
-  // Check MongoDB connection
-  if (mongoose.connection.readyState !== 1) {
-    console.error('MongoDB not connected');
-    return res.status(500).json({ error: 'Database connection error' });
-  }
 
   try {
     const { fullname, email, message } = req.body;
@@ -75,17 +86,14 @@ app.post('/submit-message', async (req, res) => {
       return res.status(400).json({ error: 'Missing required fields' });
     }
     
-    console.log('Creating new message document...');
-    const newMessage = new Message({ fullname, email, message });
+    console.log('Creating new message...');
+    const newMessage = await Message.create({
+      fullname,
+      email,
+      message
+    });
     
-    // Add timeout to save operation
-    const savePromise = newMessage.save();
-    const timeoutPromise = new Promise((_, reject) => 
-      setTimeout(() => reject(new Error('Save operation timed out')), 5000)
-    );
-    
-    const savedMessage = await Promise.race([savePromise, timeoutPromise]);
-    console.log('Message saved successfully:', savedMessage);
+    console.log('Message saved successfully:', newMessage.toJSON());
     res.status(200).json({ message: 'Message sent successfully!' });
   } catch (error) {
     console.error('Error in /submit-message:', error);
@@ -96,7 +104,9 @@ app.post('/submit-message', async (req, res) => {
 // Comments section route
 app.get('/commentsection', async (req, res) => {
   try {
-    const messages = await Message.find().sort({ timestamp: -1 }); // Get all messages, newest first
+    const messages = await Message.findAll({
+      order: [['createdAt', 'DESC']]
+    });
     res.sendFile(path.join(__dirname, 'comments.html'));
   } catch (error) {
     console.error('Error fetching messages:', error);
@@ -107,7 +117,9 @@ app.get('/commentsection', async (req, res) => {
 // API endpoint to get messages
 app.get('/api/messages', async (req, res) => {
   try {
-    const messages = await Message.find().sort({ timestamp: -1 });
+    const messages = await Message.findAll({
+      order: [['createdAt', 'DESC']]
+    });
     res.json(messages);
   } catch (error) {
     console.error('Error fetching messages:', error);
@@ -115,9 +127,14 @@ app.get('/api/messages', async (req, res) => {
   }
 });
 
+// Test endpoint
+app.get('/test', (req, res) => {
+  res.json({ message: 'Server is working!' });
+});
+
 // Start server
 const PORT = process.env.PORT || 3000;
 app.listen(PORT, () => {
   console.log(`Server is running on port ${PORT}`);
-  console.log('CORS enabled for:', corsOptions.origin);
+  console.log('CORS enabled for all origins');
 }); 
