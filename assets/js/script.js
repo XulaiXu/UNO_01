@@ -145,60 +145,60 @@ form.addEventListener("submit", async function(e) {
   console.log('=== Form Submission Started ===');
   console.log('Form data:', formData);
 
-  // First, test if the server is reachable
-  try {
-    console.log('Testing server connection...');
-    const testResponse = await fetch('http://localhost:3000/test');
-    if (!testResponse.ok) {
-      throw new Error('Server test failed');
+  const GRAPHQL_ENDPOINT = 'https://wavafmnmhbdafdy5btcksaub34.appsync-api.us-west-1.amazonaws.com/graphql';
+  const API_KEY = 'da2-ok6fd2sxtbfcxdd7tcea2podzi';
+
+  // Simplified GraphQL mutation
+  const mutation = `
+    mutation CreateMessage($fullname: String!, $email: String!, $message: String!) {
+      createMessage(fullname: $fullname, email: $email, message: $message) {
+        id
+        fullname
+        email
+        message
+      }
     }
-    const testResult = await testResponse.json();
-    console.log('Server test successful:', testResult);
-  } catch (error) {
-    console.error('Server test failed:', error);
-    alert('Cannot connect to server. Please make sure the server is running.');
-    return;
-  }
-
-  const serverUrl = 'http://localhost:3000';
-  const url = `${serverUrl}/submit-message`;
-  
-  console.log('Sending request to:', url);
+  `;
 
   try {
-    console.log('Making fetch request...');
-    const response = await fetch(url, {
+    console.log('Making GraphQL request...');
+    const response = await fetch(GRAPHQL_ENDPOINT, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
+        'x-api-key': API_KEY,
         'Accept': 'application/json'
       },
-      body: JSON.stringify(formData),
-      mode: 'cors' // Explicitly set CORS mode
+      body: JSON.stringify({
+        query: mutation,
+        variables: formData
+      })
     });
 
     console.log('Response received');
     console.log('Response status:', response.status);
-    console.log('Response headers:', Array.from(response.headers.entries()));
-
+    console.log('Response headers:', Object.fromEntries(response.headers));
+    
     const result = await response.json();
     console.log('Response data:', result);
     
-    if (response.ok) {
+    if (!result.errors) {
       console.log('Request successful');
       alert('Message sent successfully!');
       form.reset();
       formBtn.setAttribute("disabled", "");
     } else {
-      console.error('Server returned error:', result);
-      alert('Error sending message: ' + (result.error || 'Unknown error'));
+      console.error('GraphQL errors:', result.errors);
+      const errorMessage = result.errors[0]?.message || 'Unknown GraphQL error';
+      console.error('Detailed error:', errorMessage);
+      alert('Error sending message: ' + errorMessage);
     }
   } catch (error) {
     console.error('=== Error Details ===');
     console.error('Error name:', error.name);
     console.error('Error message:', error.message);
-    console.error('Full error:', error);
-    alert('Error sending message. Please check the browser console for details.');
+    console.error('Stack trace:', error.stack);
+    alert('Network error while sending message. Please check your internet connection and try again.');
   }
 });
 
