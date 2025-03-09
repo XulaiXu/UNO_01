@@ -36,6 +36,24 @@ function setupNavigation() {
   }
 }
 
+// Form input validation function
+function setupFormValidation(form, formBtn) {
+  const formInputs = form.querySelectorAll("[data-form-input]");
+
+  formInputs.forEach(input => {
+    input.addEventListener("input", function () {
+      // Check form validity
+      const allFieldsFilled = Array.from(formInputs).every(input => input.value.trim() !== '');
+
+      if (allFieldsFilled) {
+        formBtn.removeAttribute("disabled");
+      } else {
+        formBtn.setAttribute("disabled", "");
+      }
+    });
+  });
+}
+
 // Initial setup
 document.addEventListener("DOMContentLoaded", function () {
   setupNavigation();
@@ -44,7 +62,10 @@ document.addEventListener("DOMContentLoaded", function () {
   const form = document.querySelector("[data-form]");
   const formBtn = document.querySelector("[data-form-btn]");
 
-  if (form) {
+  if (form && formBtn) {
+    // Setup form validation
+    setupFormValidation(form, formBtn);
+
     form.addEventListener("submit", async function (e) {
       e.preventDefault();
 
@@ -109,7 +130,11 @@ document.addEventListener("DOMContentLoaded", function () {
         if (result.data && result.data.createCommentSection) {
           console.log('Request successful');
           alert('Message sent successfully!');
+
+          // Reset form
           form.reset();
+
+          // Disable submit button
           formBtn.setAttribute("disabled", "");
         } else {
           console.error('GraphQL errors:', result.errors);
