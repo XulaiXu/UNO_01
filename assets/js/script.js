@@ -152,3 +152,70 @@ document.addEventListener("DOMContentLoaded", function () {
     });
   }
 });
+
+document.addEventListener('DOMContentLoaded', function () {
+  // Get all filter buttons
+  const filterButtons = document.querySelectorAll('[data-filter-btn]');
+  const selectItems = document.querySelectorAll('[data-select-item]');
+  const projectItems = document.querySelectorAll('.project-item');
+  const selectValue = document.querySelector('.select-value');
+
+  // Function to filter projects
+  function filterProjects(category) {
+    projectItems.forEach(item => {
+      const itemCategory = item.getAttribute('data-category');
+
+      if (category === 'all' || category === itemCategory) {
+        item.classList.add('active');
+      } else {
+        item.classList.remove('active');
+      }
+    });
+  }
+
+  // Add click event for filter buttons
+  filterButtons.forEach(button => {
+    button.addEventListener('click', function () {
+      // Remove active class from all buttons and add to clicked one
+      filterButtons.forEach(btn => btn.classList.remove('active'));
+      this.classList.add('active');
+
+      // Get category from button's data attribute
+      const category = this.getAttribute('data-filter-btn');
+      filterProjects(category);
+    });
+  });
+
+  // Add click event for select items in dropdown
+  selectItems.forEach(item => {
+    item.addEventListener('click', function () {
+      const category = this.getAttribute('data-select-item');
+      selectValue.textContent = this.textContent;
+      filterProjects(category);
+
+      // Also update the main filter buttons to show the active state
+      filterButtons.forEach(btn => {
+        if (btn.getAttribute('data-filter-btn') === category) {
+          btn.classList.add('active');
+        } else {
+          btn.classList.remove('active');
+        }
+      });
+    });
+  });
+
+  // Handle filter select dropdown toggle
+  const filterSelect = document.querySelector('.filter-select');
+  const selectList = document.querySelector('.select-list');
+
+  filterSelect.addEventListener('click', function () {
+    selectList.classList.toggle('show');
+  });
+
+  // Close dropdown when clicking outside
+  document.addEventListener('click', function (event) {
+    if (!event.target.closest('.filter-select-box')) {
+      selectList.classList.remove('show');
+    }
+  });
+});
