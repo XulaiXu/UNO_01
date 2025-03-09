@@ -137,10 +137,11 @@ form.addEventListener("submit", async function(e) {
   e.preventDefault();
   
   const formData = {
-    fullname: form.fullname.value,
+    name: form.fullname.value,  // Change "fullname" to "name"
     email: form.email.value,
-    message: form.message.value
+    userComment: form.message.value  // Change "message" to "userComment"
   };
+
 
   console.log('=== Form Submission Started ===');
   console.log('Form data:', formData);
