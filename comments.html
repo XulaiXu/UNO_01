@@ -3,90 +3,151 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Comments Section - Xulai Xu</title>
-    <link rel="shortcut icon" href="./assets/images/iconX2.ico" type="image/x-icon">
+    <title>Comments</title>
     <style>
         body {
-            font-family: 'Poppins', sans-serif;
+            font-family: Arial, sans-serif;
             max-width: 800px;
             margin: 0 auto;
             padding: 20px;
-            background-color: #f5f5f5;
+            line-height: 1.6;
         }
         .comment {
-            background-color: white;
-            padding: 20px;
-            margin-bottom: 20px;
-            border-radius: 8px;
-            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+            border-bottom: 1px solid #eee;
+            padding: 15px 0;
         }
         .comment-header {
             display: flex;
             justify-content: space-between;
-            margin-bottom: 10px;
             color: #666;
+            margin-bottom: 10px;
         }
         .comment-name {
             font-weight: bold;
-            color: #333;
         }
-        .comment-message {
-            line-height: 1.6;
+        .comment-timestamp {
+            font-size: 0.8em;
         }
-        .timestamp {
-            font-size: 0.9em;
-            color: #888;
+        .comment-body {
+            margin-top: 10px;
         }
-        h1 {
-            color: #333;
+        #error-message {
+            color: red;
             text-align: center;
-            margin-bottom: 40px;
         }
-        .back-button {
-            display: inline-block;
-            padding: 10px 20px;
-            background-color: #007bff;
-            color: white;
-            text-decoration: none;
-            border-radius: 5px;
-            margin-bottom: 20px;
-        }
-        .back-button:hover {
-            background-color: #0056b3;
+        #loading {
+            text-align: center;
+            color: #666;
         }
     </style>
 </head>
 <body>
-    <a href="/" class="back-button">← Back to Portfolio</a>
-    <h1>Comments Section</h1>
+    <h1>Recent Comments</h1>
+    <div id="loading">Loading comments...</div>
+    <div id="error-message"></div>
     <div id="comments-container"></div>
 
     <script>
-        async function loadComments() {
+        const GRAPHQL_ENDPOINT = 'https://wavafmnmhbdafdy5btcksaub34.appsync-api.us-west-1.amazonaws.com/graphql';
+        const API_KEY = 'da2-ok6fd2sxtbfcxdd7tcea2podzi';
+
+        // GraphQL query to list comments
+        const query = `
+            query ListCommentSections {
+                listCommentSections {
+                    items {
+                        id
+                        name
+                        email
+                        userComment
+                        createdAt
+                    }
+                }
+            }
+        `;
+
+        async function fetchComments() {
+            const loadingDiv = document.getElementById('loading');
+            const errorDiv = document.getElementById('error-message');
+            const commentsContainer = document.getElementById('comments-container');
+
             try {
-                const response = await fetch('/api/messages');
-                const messages = await response.json();
-                
-                const container = document.getElementById('comments-container');
-                container.innerHTML = messages.map(message => `
-                    <div class="comment">
-                        <div class="comment-header">
-                            <span class="comment-name">${message.fullname}</span>
-                            <span class="timestamp">${new Date(message.timestamp).toLocaleString()}</span>
+                const response = await fetch(GRAPHQL_ENDPOINT, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'x-api-key': API_KEY,
+                        'Accept': 'application/json'
+                    },
+                    body: JSON.stringify({ query })
+                });
+
+                const result = await response.json();
+
+                // Hide loading message
+                loadingDiv.style.display = 'none';
+
+                if (result.data && result.data.listCommentSections) {
+                    // Sort comments by createdAt in descending order (most recent first)
+                    const comments = result.data.listCommentSections.items
+                        .sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt));
+
+                    // Clear any previous error messages
+                    errorDiv.textContent = '';
+
+                    // If no comments
+                    if (comments.length === 0) {
+                        commentsContainer.innerHTML = '<p>No comments yet.</p>';
+                        return;
+                    }
+
+                    // Render comments
+                    commentsContainer.innerHTML = comments.map(comment => `
+                        <div class="comment">
+                            <div class="comment-header">
+                                <span class="comment-name">${escapeHtml(comment.name)}</span>
+                                <span class="comment-timestamp">${formatDate(comment.createdAt)}</span>
+                            </div>
+                            <div class="comment-body">
+                                <p>${escapeHtml(comment.userComment)}</p>
+                                <small class="comment-email">${escapeHtml(comment.email)}</small>
+                            </div>
                         </div>
-                        <div class="comment-message">${message.message}</div>
-                    </div>
-                `).join('');
+                    `).join('');
+                } else {
+                    throw new Error('Unable to fetch comments');
+                }
             } catch (error) {
-                console.error('Error loading comments:', error);
+                console.error('Error fetching comments:', error);
+                loadingDiv.style.display = 'none';
+                errorDiv.textContent = 'Error loading comments. Please try again later.';
             }
         }
 
-        // Load comments when page loads
-        loadComments();
+        // Utility to escape HTML to prevent XSS
+        function escapeHtml(unsafe) {
+            return unsafe
+                .replace(/&/g, "&amp;")
+                .replace(/</g, "&lt;")
+                .replace(/>/g, "&gt;")
+                .replace(/"/g, "&quot;")
+                .replace(/'/g, "&#039;");
+        }
 
-        // Refresh comments every 30 seconds
-        setInterval(loadComments, 30000);
+        // Format date to be more readable
+        function formatDate(dateString) {
+            const date = new Date(dateString);
+            return date.toLocaleString('en-US', {
+                year: 'numeric',
+                month: 'short',
+                day: 'numeric',
+                hour: '2-digit',
+                minute: '2-digit'
+            });
+        }
+
+        // Fetch comments when page loads
+        document.addEventListener('DOMContentLoaded', fetchComments);
     </script>
 </body>
-</html> 
+</html>
