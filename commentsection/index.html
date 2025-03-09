@@ -158,16 +158,16 @@
             const caTime = date.toLocaleString('en-US', {
                 timeZone: 'America/Los_Angeles',
                 year: 'numeric',
-                month: 'short',
+                month: '2-digit',
                 day: '2-digit',
                 hour: '2-digit',
                 minute: '2-digit',
                 hour12: false
             });
             
-            // Reformat to YYYY/MMM/DD HH:MM format
+            // Reformat to YYYY/MM/DD HH:MM format
             const [month, day, year, time] = caTime.replace(',', '').split(' ');
-            return `${year}/${month}/${day.padStart(2, '0')} ${time}`;
+            return `${year}/${month}/${day} ${time}`;
         }
 
         // Fetch comments when page loads
