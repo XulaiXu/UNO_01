@@ -3,22 +3,20 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Comments</title>
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
-    <h1>Recent Comments</h1>
-    <div id="loading">Loading comments...</div>
+    <div id="loading">Loading...</div>
     <div id="error-message"></div>
     <div id="comments-container">
         <table id="comments-table">
             <thead>
                 <tr>
-                    <th>Delete</th>
-                    <th>Timestamp</th>
-                    <th>Name</th>
-                    <th>Email</th>
-                    <th>Comment</th>
+                    <th style="text-align: left;">Delete</th>
+                    <th style="text-align: left;">Timestamp</th>
+                    <th style="text-align: left;">Name</th>
+                    <th style="text-align: left;">Email</th>
+                    <th style="text-align: left;">Comment</th>
                 </tr>
             </thead>
             <tbody id="comments-body">
@@ -123,7 +121,7 @@
                     commentsBody.innerHTML = comments.map(comment => `
                         <tr>
                             <td>
-                                <div class="delete-checkbox"></div>
+                                <button onclick="deleteComment('${comment.id}')">X</button>
                             </td>
                             <td>${formatDate(comment.createdAt)}</td>
                             <td>${escapeHtml(comment.name)}</td>
