@@ -19,44 +19,51 @@ body {
 
 #comments-table th:nth-child(1),
 #comments-table td:nth-child(1) {
-  /* Timestamp column */
+  /* Delete button column */
   width: 1%;
   white-space: nowrap;
+  text-align: center;
 }
 
 #comments-table th:nth-child(2),
 #comments-table td:nth-child(2) {
-  /* Name column */
+  /* Timestamp column */
   width: 1%;
   white-space: nowrap;
 }
 
 #comments-table th:nth-child(3),
 #comments-table td:nth-child(3) {
-  /* Email column */
+  /* Name column */
   width: 1%;
   white-space: nowrap;
 }
 
 #comments-table th:nth-child(4),
 #comments-table td:nth-child(4) {
+  /* Email column */
+  width: 1%;
+  white-space: nowrap;
+}
+
+#comments-table th:nth-child(5),
+#comments-table td:nth-child(5) {
   /* Comment column */
   width: auto;
   word-wrap: break-word;
 }
 
-#comments-table th {
-  background-color: #f2f2f2;
-  text-align: left;
-  font-weight: bold;
+#comments-table button {
+  background: none;
+  border: none;
+  cursor: pointer;
+  font-size: 16px;
+  padding: 0;
+  transition: transform 0.2s;
 }
 
-#comments-table tr:nth-child(even) {
-  background-color: #f9f9f9;
-}
-
-#comments-table tr:hover {
-  background-color: #f5f5f5;
+#comments-table button:hover {
+  transform: scale(1.2);
 }
 
 #loading,
