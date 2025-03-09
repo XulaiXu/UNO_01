@@ -7,37 +7,49 @@
     <style>
         body {
             font-family: Arial, sans-serif;
-            max-width: 800px;
+            max-width: 100%;
             margin: 0 auto;
             padding: 20px;
-            line-height: 1.6;
+            line-height: 1.4;
         }
-        .comment {
-            border-bottom: 1px solid #eee;
-            padding: 15px 0;
+        #comments-table {
+            width: 100%;
+            border-collapse: collapse;
+            table-layout: fixed;
         }
-        .comment-header {
-            display: flex;
-            justify-content: space-between;
-            color: #666;
-            margin-bottom: 10px;
+        #comments-table th, #comments-table td {
+            border: 1px solid #ddd;
+            padding: 8px;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            white-space: nowrap;
         }
-        .comment-name {
+        #comments-table th {
+            background-color: #f2f2f2;
+            text-align: left;
             font-weight: bold;
         }
-        .comment-timestamp {
-            font-size: 0.8em;
+        #comments-table tr:nth-child(even) {
+            background-color: #f9f9f9;
         }
-        .comment-body {
-            margin-top: 10px;
+        #comments-table tr:hover {
+            background-color: #f5f5f5;
+        }
+        #loading, #error-message {
+            text-align: center;
+            color: #666;
+            margin: 20px 0;
         }
         #error-message {
             color: red;
-            text-align: center;
         }
-        #loading {
-            text-align: center;
-            color: #666;
+        @media (max-width: 600px) {
+            #comments-table {
+                font-size: 0.9em;
+            }
+            #comments-table th, #comments-table td {
+                padding: 6px;
+            }
         }
     </style>
 </head>
@@ -45,7 +57,21 @@
     <h1>Recent Comments</h1>
     <div id="loading">Loading comments...</div>
     <div id="error-message"></div>
-    <div id="comments-container"></div>
+    <div id="comments-container">
+        <table id="comments-table">
+            <thead>
+                <tr>
+                    <th>Timestamp</th>
+                    <th>Name</th>
+                    <th>Email</th>
+                    <th>Comment</th>
+                </tr>
+            </thead>
+            <tbody id="comments-body">
+                <!-- Comments will be inserted here -->
+            </tbody>
+        </table>
+    </div>
 
     <script>
         const GRAPHQL_ENDPOINT = 'https://wavafmnmhbdafdy5btcksaub34.appsync-api.us-west-1.amazonaws.com/graphql';
@@ -69,7 +95,7 @@
         async function fetchComments() {
             const loadingDiv = document.getElementById('loading');
             const errorDiv = document.getElementById('error-message');
-            const commentsContainer = document.getElementById('comments-container');
+            const commentsBody = document.getElementById('comments-body');
 
             try {
                 const response = await fetch(GRAPHQL_ENDPOINT, {
@@ -97,22 +123,18 @@
 
                     // If no comments
                     if (comments.length === 0) {
-                        commentsContainer.innerHTML = '<p>No comments yet.</p>';
+                        commentsBody.innerHTML = '<tr><td colspan="4">No comments yet.</td></tr>';
                         return;
                     }
 
                     // Render comments
-                    commentsContainer.innerHTML = comments.map(comment => `
-                        <div class="comment">
-                            <div class="comment-header">
-                                <span class="comment-name">${escapeHtml(comment.name)}</span>
-                                <span class="comment-timestamp">${formatDate(comment.createdAt)}</span>
-                            </div>
-                            <div class="comment-body">
-                                <p>${escapeHtml(comment.userComment)}</p>
-                                <small class="comment-email">${escapeHtml(comment.email)}</small>
-                            </div>
-                        </div>
+                    commentsBody.innerHTML = comments.map(comment => `
+                        <tr>
+                            <td>${formatDate(comment.createdAt)}</td>
+                            <td>${escapeHtml(comment.name)}</td>
+                            <td>${escapeHtml(comment.email)}</td>
+                            <td>${escapeHtml(comment.userComment)}</td>
+                        </tr>
                     `).join('');
                 } else {
                     throw new Error('Unable to fetch comments');
