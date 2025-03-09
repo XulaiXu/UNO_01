@@ -141,7 +141,7 @@ form.addEventListener("submit", async function(e) {
     email: form.email.value,
     userComment: form.message.value  // Change "message" to "userComment"
   };
-  
+
 
   console.log('=== Form Submission Started ===');
   console.log('Form data:', formData);
@@ -228,3 +228,21 @@ for (let i = 0; i < navigationLinks.length; i++) {
 
   });
 }
+
+
+document.addEventListener("DOMContentLoaded", function () {
+  console.log("DOM fully loaded and parsed.");
+
+  const form = document.querySelector("[data-form]");
+  const formInputs = document.querySelectorAll("[data-form-input]");
+
+  console.log("Form found:", form);
+  console.log("Form inputs found:", formInputs);
+
+  if (!form) {
+    console.error("ERROR: Form with [data-form] not found. Check HTML.");
+  }
+  if (formInputs.length === 0) {
+    console.error("ERROR: No inputs with [data-form-input] found. Check HTML.");
+  }
+});
