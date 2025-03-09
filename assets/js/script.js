@@ -150,15 +150,17 @@ form.addEventListener("submit", async function(e) {
 
   // Simplified GraphQL mutation
   const mutation = `
-    mutation CreateMessage($fullname: String!, $email: String!, $message: String!) {
-      createMessage(fullname: $fullname, email: $email, message: $message) {
+    mutation CreateComment($name: String!, $email: String!, $userComment: String!) {
+      createCommentSection(input: {name: $name, email: $email, userComment: $userComment, status: PENDING}) {
         id
-        fullname
+        name
         email
-        message
+        userComment
+        status
       }
     }
   `;
+
 
   try {
     console.log('Making GraphQL request...');
