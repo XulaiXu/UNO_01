@@ -8,13 +8,13 @@ body {
 
 #comments-table {
   width: 100%;
-  border-collapse: separate;
-  border-spacing: 0;
+  border-collapse: collapse;
+  border: 1px solid black;
 }
 
 #comments-table th,
 #comments-table td {
-  border: 1px solid #000;
+  border: 1px solid black;
   padding: 8px;
   margin: 0;
   text-align: left;
@@ -22,11 +22,6 @@ body {
 
 #comments-table th {
   background-color: #f0f0f0;
-  border: 1px solid #000;
-}
-
-#comments-table tr {
-  border: 1px solid #000;
 }
 
 #comments-table th:nth-child(1),
