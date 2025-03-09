@@ -142,7 +142,6 @@ form.addEventListener("submit", async function(e) {
     userComment: form.message.value  // Change "message" to "userComment"
   };
 
-
   console.log('=== Form Submission Started ===');
   console.log('Form data:', formData);
 
