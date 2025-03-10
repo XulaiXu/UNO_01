@@ -9,12 +9,15 @@
   <!-- Outer Circle -->
   <circle cx="32" cy="32" r="28" stroke="url(#ironmanGradient)" stroke-width="2" fill="none"/>
   
-  <!-- "M" Base (Swim Wave) -->
-  <path d="M20 40 Q28 36, 36 40 T52 40" stroke="url(#ironmanGradient)" stroke-width="2" fill="none"/>
+  <!-- Head Circle -->
+  <circle cx="32" cy="20" r="8" stroke="url(#ironmanGradient)" stroke-width="2" fill="none"/>
   
-  <!-- Cycle Wheel (Center of "M") -->
-  <circle cx="32" cy="32" r="6" stroke="url(#ironmanGradient)" stroke-width="2" fill="none"/>
+  <!-- "M" Body (Left Leg) -->
+  <path d="M24 28 H28 V40 H24 V28" stroke="url(#ironmanGradient)" stroke-width="2" fill="none"/>
   
-  <!-- Run Legs (Top of "M") -->
-  <path d="M24 20 L28 28 L32 20 L36 28 L40 20" stroke="url(#ironmanGradient)" stroke-width="2" fill="none"/>
+  <!-- "M" Body (Right Leg) -->
+  <path d="M36 28 H40 V40 H36 V28" stroke="url(#ironmanGradient)" stroke-width="2" fill="none"/>
+  
+  <!-- "M" Body (Center Bar) -->
+  <path d="M28 28 H36 V40 H28 V28" stroke="url(#ironmanGradient)" stroke-width="2" fill="none"/>
 </svg>
