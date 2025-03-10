@@ -18,7 +18,7 @@ const pages = document.querySelectorAll("[data-page]");
 function setupNavigation() {
   for (let i = 0; i < navigationLinks.length; i++) {
     navigationLinks[i].addEventListener("click", function () {
-      if (this.innerHTML.toLowerCase() === 'resume' && !isResumeUnlocked) {
+      if (this.innerHTML.toLowerCase() === 'resume') {
         passwordModalFunc(); // Show password modal
         return;
       }
@@ -160,7 +160,6 @@ document.addEventListener("DOMContentLoaded", function () {
   const resumePassword = document.getElementById("resume-password");
   const submitPassword = document.getElementById("submit-password");
   const resumeSection = document.querySelector("[data-page='resume']");
-  let isResumeUnlocked = false;
 
   // Hide resume section by default
   if (resumeSection) {
@@ -197,7 +196,6 @@ document.addEventListener("DOMContentLoaded", function () {
     submitPassword.addEventListener("click", function() {
       const password = resumePassword.value;
       if (password === 'xulai') {
-        isResumeUnlocked = true;
         passwordModal.classList.remove("active");
         passwordModal.style.display = "none";
         resumePassword.value = ''; // Clear the password field
@@ -232,7 +230,7 @@ document.addEventListener("DOMContentLoaded", function () {
   // Add event to all nav links
   for (let i = 0; i < navigationLinks.length; i++) {
     navigationLinks[i].addEventListener("click", function () {
-      if (this.innerHTML.toLowerCase() === 'resume' && !isResumeUnlocked) {
+      if (this.innerHTML.toLowerCase() === 'resume') {
         passwordModalFunc(); // Show password modal
         return;
       }
