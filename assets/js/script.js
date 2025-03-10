@@ -162,10 +162,17 @@ document.addEventListener("DOMContentLoaded", function () {
   const resumeSection = document.querySelector("[data-page='resume']");
   let isResumeUnlocked = false;
 
+  // Hide resume section by default
+  if (resumeSection) {
+    resumeSection.classList.remove("active");
+  }
+
   // Password modal toggle function
   const passwordModalFunc = function () {
     passwordModal.classList.add("active");
+    passwordModal.style.display = "flex";
     if (resumePassword) {
+      resumePassword.value = ''; // Clear any previous input
       resumePassword.focus();
     }
   }
@@ -174,12 +181,14 @@ document.addEventListener("DOMContentLoaded", function () {
   if (passwordCloseBtn) {
     passwordCloseBtn.addEventListener("click", function() {
       passwordModal.classList.remove("active");
+      passwordModal.style.display = "none";
     });
   }
   
   if (passwordOverlay) {
     passwordOverlay.addEventListener("click", function() {
       passwordModal.classList.remove("active");
+      passwordModal.style.display = "none";
     });
   }
 
@@ -187,9 +196,10 @@ document.addEventListener("DOMContentLoaded", function () {
   if (submitPassword && resumePassword) {
     submitPassword.addEventListener("click", function() {
       const password = resumePassword.value;
-      if (password === 'xulai2024') {
+      if (password === 'xulai') {
         isResumeUnlocked = true;
         passwordModal.classList.remove("active");
+        passwordModal.style.display = "none";
         resumePassword.value = ''; // Clear the password field
         
         // Show the resume section
