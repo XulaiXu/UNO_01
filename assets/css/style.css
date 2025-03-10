@@ -597,19 +597,19 @@ main {
 
 .testimonials-avatar-box {
   position: absolute;
-  top: 0;
+  top: 50%;
   left: 0;
-  transform: translate(15px, -25px);
+  transform: translate(15px, -50%);
   background: var(--bg-gradient-onyx);
   border-radius: 14px;
   box-shadow: var(--shadow-1);
   overflow: hidden;
-  width: 100px;  /* Increased size */
-  height: 100px; /* Increased size */
+  width: 60px;  /* Reduced size */
+  height: 60px; /* Reduced size */
   display: flex;
   justify-content: center;
   align-items: center;
-  padding: 15px;
+  padding: 12px;
 }
 
 .testimonials-avatar-box img {
