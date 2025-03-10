@@ -599,12 +599,12 @@ main {
   position: absolute;
   top: 0;
   left: 0;
-  transform: translate(15px, 45px);
+  transform: translate(15px, 33px);
   background: var(--bg-gradient-onyx);
   border-radius: 14px;
   box-shadow: var(--shadow-1);
-  width: 66px;
-  height: 66px;
+  width: 73px;
+  height: 73px;
   display: flex;
   justify-content: center;
   align-items: center;
@@ -613,8 +613,8 @@ main {
 }
 
 .licenses-avatar-box img {
-  width: 40px;
-  height: 40px;
+  width: 44px;
+  height: 44px;
   object-fit: contain;
 }
 
