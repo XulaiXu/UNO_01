@@ -1974,7 +1974,11 @@ textarea.form-input::-webkit-resizer { display: none; }
   border: none;
   text-align: center;
   width: 100%;
-  display: block;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 44px;
+  margin: 0;
 }
 
 #submit-password:hover {
@@ -1998,11 +2002,18 @@ textarea.form-input::-webkit-resizer { display: none; }
   cursor: pointer;
   border: none;
   z-index: 1001;
+  padding: 0;
 }
 
 .password-modal .modal-close-btn:hover {
   background: var(--jet);
   color: var(--orange-yellow-crayola);
+}
+
+.password-modal .modal-close-btn ion-icon {
+  width: 18px;
+  height: 18px;
+  pointer-events: none;
 }
 
 .password-modal .overlay {
