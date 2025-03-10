@@ -1,20 +1,20 @@
 <svg width="40" height="40" viewBox="0 0 64 64" fill="none" xmlns="http://www.w3.org/2000/svg">
   <defs>
-    <linearGradient id="cyclistGradient" x1="10" y1="20" x2="50" y2="50" gradientUnits="userSpaceOnUse">
+    <linearGradient id="triathlonGradient" x1="10" y1="20" x2="50" y2="50" gradientUnits="userSpaceOnUse">
       <stop offset="0.259" stop-color="#219A74"/>
       <stop offset="1" stop-color="#1D8B6A"/>
     </linearGradient>
   </defs>
   
-  <!-- Bicycle Wheels -->
-  <circle cx="16" cy="48" r="10" stroke="url(#cyclistGradient)" stroke-width="2" fill="none"/>
-  <circle cx="48" cy="48" r="10" stroke="url(#cyclistGradient)" stroke-width="2" fill="none"/>
+  <!-- Swim (Wave) -->
+  <path d="M12 52 Q20 48, 28 52 T44 52" stroke="url(#triathlonGradient)" stroke-width="2" fill="none"/>
   
-  <!-- Bicycle Frame -->
-  <path d="M16 48 L32 24 L48 48" stroke="url(#cyclistGradient)" stroke-width="2" fill="none"/>
-  <path d="M32 24 L38 36" stroke="url(#cyclistGradient)" stroke-width="2" fill="none"/>
+  <!-- Cycle (Wheel + Frame) -->
+  <circle cx="32" cy="40" r="8" stroke="url(#triathlonGradient)" stroke-width="2" fill="none"/>
+  <path d="M32 32 L40 40" stroke="url(#triathlonGradient)" stroke-width="2" fill="none"/>
+  <path d="M32 32 L24 40" stroke="url(#triathlonGradient)" stroke-width="2" fill="none"/>
   
-  <!-- Cyclist Body -->
-  <path d="M32 24 L28 16 L36 12" stroke="url(#cyclistGradient)" stroke-width="2" fill="none"/>
-  <circle cx="36" cy="10" r="3" stroke="url(#cyclistGradient)" stroke-width="2" fill="none"/>
+  <!-- Run (Figure) -->
+  <circle cx="44" cy="12" r="3" stroke="url(#triathlonGradient)" stroke-width="2" fill="none"/>
+  <path d="M44 16 L40 24 L48 24" stroke="url(#triathlonGradient)" stroke-width="2" fill="none"/>
 </svg>
