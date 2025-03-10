@@ -603,6 +603,21 @@ main {
   background: var(--bg-gradient-onyx);
   border-radius: 14px;
   box-shadow: var(--shadow-1);
+  overflow: hidden;
+}
+
+.testimonials-avatar-box img {
+  width: 60px;
+  height: 60px;
+  object-fit: contain;
+  border-radius: 14px;
+  padding: 10px;
+}
+
+.testimonials-avatar-box a {
+  display: block;
+  width: 100%;
+  height: 100%;
 }
 
 .testimonials-item-title { margin-bottom: 7px; }
