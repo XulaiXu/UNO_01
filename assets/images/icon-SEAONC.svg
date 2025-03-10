@@ -7,13 +7,17 @@
   </defs>
   
   <!-- Bridge Deck -->
-  <path d="M12 48 H52" stroke="url(#bridgeGradient)" stroke-width="2" fill="none"/>
+  <path d="M12 48 Q24 46, 32 48 Q40 46, 52 48" stroke="url(#bridgeGradient)" stroke-width="2" fill="none"/>
   
-  <!-- Towers -->
+  <!-- Towers with Cross-Bracing -->
   <path d="M20 16 V48" stroke="url(#bridgeGradient)" stroke-width="2" fill="none"/>
+  <path d="M24 24 L16 32 L24 40" stroke="url(#bridgeGradient)" stroke-width="2" fill="none"/>
   <path d="M44 16 V48" stroke="url(#bridgeGradient)" stroke-width="2" fill="none"/>
+  <path d="M40 24 L48 32 L40 40" stroke="url(#bridgeGradient)" stroke-width="2" fill="none"/>
   
   <!-- Suspension Cables -->
-  <path d="M20 16 Q32 32, 12 48" stroke="url(#bridgeGradient)" stroke-width="2" fill="none"/>
-  <path d="M44 16 Q32 32, 52 48" stroke="url(#bridgeGradient)" stroke-width="2" fill="none"/>
+  <path d="M20 16 Q28 32, 12 48" stroke="url(#bridgeGradient)" stroke-width="2" fill="none"/>
+  <path d="M24 16 Q32 28, 16 48" stroke="url(#bridgeGradient)" stroke-width="2" fill="none"/>
+  <path d="M44 16 Q36 32, 52 48" stroke="url(#bridgeGradient)" stroke-width="2" fill="none"/>
+  <path d="M40 16 Q32 28, 48 48" stroke="url(#bridgeGradient)" stroke-width="2" fill="none"/>
 </svg>
