@@ -181,6 +181,18 @@ document.addEventListener("DOMContentLoaded", function () {
     passwordCloseBtn.addEventListener("click", function() {
       passwordModal.classList.remove("active");
       passwordModal.style.display = "none";
+      // Reset any active navigation states
+      navigationLinks.forEach(link => {
+        if (link.innerHTML.toLowerCase() === 'resume') {
+          link.classList.remove("active");
+        }
+      });
+      // Ensure the previously active page remains visible
+      pages.forEach(page => {
+        if (page.classList.contains("active") && page.dataset.page !== 'resume') {
+          page.classList.add("active");
+        }
+      });
     });
   }
   
@@ -188,6 +200,18 @@ document.addEventListener("DOMContentLoaded", function () {
     passwordOverlay.addEventListener("click", function() {
       passwordModal.classList.remove("active");
       passwordModal.style.display = "none";
+      // Reset any active navigation states
+      navigationLinks.forEach(link => {
+        if (link.innerHTML.toLowerCase() === 'resume') {
+          link.classList.remove("active");
+        }
+      });
+      // Ensure the previously active page remains visible
+      pages.forEach(page => {
+        if (page.classList.contains("active") && page.dataset.page !== 'resume') {
+          page.classList.add("active");
+        }
+      });
     });
   }
 
