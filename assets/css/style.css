@@ -1201,9 +1201,9 @@ main {
 .form-input:focus { border-color: var(--orange-yellow-crayola); }
 
 textarea.form-input {
-  min-height: 100px;
-  height: 120px;
-  max-height: 200px;
+  min-height: 150px;
+  height: 180px;
+  max-height: 300px;
   resize: vertical;
   margin-bottom: 25px;
 }
