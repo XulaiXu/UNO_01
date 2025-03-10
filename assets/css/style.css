@@ -1457,7 +1457,7 @@ textarea.form-input::-webkit-resizer { display: none; }
   }
 
   .licenses-avatar-box {
-    transform: translate(30px, 85px);
+    transform: translate(30px, 0px);
     border-radius: 20px;
   }
 
