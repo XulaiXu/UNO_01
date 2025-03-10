@@ -152,6 +152,63 @@ document.addEventListener("DOMContentLoaded", function () {
       }
     });
   }
+
+  // Password protection for resume
+  const passwordModal = document.querySelector("[data-password-modal]");
+  const passwordOverlay = document.querySelector("[data-password-overlay]");
+  const passwordCloseBtn = document.querySelector("[data-password-close-btn]");
+  const resumePassword = document.getElementById("resume-password");
+  const submitPassword = document.getElementById("submit-password");
+  const resumeSection = document.querySelector("[data-page='resume']");
+  let isResumeUnlocked = false;
+
+  // Password modal toggle function
+  const passwordModalFunc = function () {
+    passwordModal.style.display = 'flex';
+    passwordModal.classList.toggle("active");
+    passwordOverlay.classList.toggle("active");
+  }
+
+  // Close password modal when clicking close button or overlay
+  passwordCloseBtn.addEventListener("click", function() {
+    passwordModal.style.display = 'none';
+    passwordModal.classList.remove("active");
+    passwordOverlay.classList.remove("active");
+  });
+  
+  passwordOverlay.addEventListener("click", function() {
+    passwordModal.style.display = 'none';
+    passwordModal.classList.remove("active");
+    passwordOverlay.classList.remove("active");
+  });
+
+  // Handle password submission
+  submitPassword.addEventListener("click", function() {
+    const password = resumePassword.value;
+    // Set the password to "xulai2024"
+    if (password === 'xulai2024') {
+      isResumeUnlocked = true;
+      passwordModal.style.display = 'none';
+      passwordModal.classList.remove("active");
+      passwordOverlay.classList.remove("active");
+      resumePassword.value = ''; // Clear the password field
+      
+      // Show the resume section
+      for (let i = 0; i < pages.length; i++) {
+        if (pages[i].dataset.page === 'resume') {
+          pages[i].classList.add("active");
+          navigationLinks[i].classList.add("active");
+          window.scrollTo(0, 0);
+        } else {
+          pages[i].classList.remove("active");
+          navigationLinks[i].classList.remove("active");
+        }
+      }
+    } else {
+      alert('Incorrect password. Please try again.');
+      resumePassword.value = ''; // Clear the password field
+    }
+  });
 });
 
 document.addEventListener('DOMContentLoaded', function () {
@@ -219,49 +276,4 @@ document.addEventListener('DOMContentLoaded', function () {
       selectList.classList.remove('show');
     }
   });
-});
-
-// Password protection for resume
-const passwordModal = document.querySelector("[data-password-modal]");
-const passwordOverlay = document.querySelector("[data-password-overlay]");
-const passwordCloseBtn = document.querySelector("[data-password-close-btn]");
-const resumePassword = document.getElementById("resume-password");
-const submitPassword = document.getElementById("submit-password");
-const resumeSection = document.querySelector("[data-page='resume']");
-let isResumeUnlocked = false;
-
-// Password modal toggle function
-const passwordModalFunc = function () {
-  passwordModal.classList.toggle("active");
-  passwordOverlay.classList.toggle("active");
-}
-
-// Close password modal when clicking close button or overlay
-passwordCloseBtn.addEventListener("click", passwordModalFunc);
-passwordOverlay.addEventListener("click", passwordModalFunc);
-
-// Handle password submission
-submitPassword.addEventListener("click", function() {
-  const password = resumePassword.value;
-  // Replace 'your_password_here' with your desired password
-  if (password === 'your_password_here') {
-    isResumeUnlocked = true;
-    passwordModalFunc(); // Close the modal
-    resumePassword.value = ''; // Clear the password field
-    
-    // Show the resume section
-    for (let i = 0; i < pages.length; i++) {
-      if (pages[i].dataset.page === 'resume') {
-        pages[i].classList.add("active");
-        navigationLinks[i].classList.add("active");
-        window.scrollTo(0, 0);
-      } else {
-        pages[i].classList.remove("active");
-        navigationLinks[i].classList.remove("active");
-      }
-    }
-  } else {
-    alert('Incorrect password. Please try again.');
-    resumePassword.value = ''; // Clear the password field
-  }
 });
