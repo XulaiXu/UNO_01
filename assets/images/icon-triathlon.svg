@@ -1,27 +1,29 @@
 <svg width="40" height="40" viewBox="0 0 64 64" fill="none" xmlns="http://www.w3.org/2000/svg">
   <defs>
-    <linearGradient id="ironmanGradient" x1="10" y1="20" x2="50" y2="50" gradientUnits="userSpaceOnUse">
+    <linearGradient id="iconGradient" x1="10" y1="20" x2="50" y2="50" gradientUnits="userSpaceOnUse">
       <stop offset="0.259" stop-color="#219A74"/>
       <stop offset="1" stop-color="#1D8B6A"/>
     </linearGradient>
   </defs>
-  
-  <!-- Outer Circle -->
-  <circle cx="32" cy="32" r="28" stroke="url(#ironmanGradient)" stroke-width="2" fill="none"/>
-  
-  <!-- Head Circle -->
-  <circle cx="32" cy="20" r="8" stroke="url(#ironmanGradient)" stroke-width="2" fill="none"/>
-  
-  <!-- "M" Body (Left Leg) -->
-  <path d="M24 28 H28 V40 H24 V28" stroke="url(#ironmanGradient)" stroke-width="2" fill="none"/>
-  
-  <!-- "M" Body (Right Leg) -->
-  <path d="M36 28 H40 V40 H36 V28" stroke="url(#ironmanGradient)" stroke-width="2" fill="none"/>
-  
-  <!-- "M" Body (Center Bar) -->
-  <path d="M28 28 H36 V40 H28 V28" stroke="url(#ironmanGradient)" stroke-width="2" fill="none"/>
-  
-  <!-- Additional Detailing (Inner Edges of "M" Legs) -->
-  <path d="M28 28 V40" stroke="url(#ironmanGradient)" stroke-width="2" fill="none"/>
-  <path d="M36 28 V40" stroke="url(#ironmanGradient)" stroke-width="2" fill="none"/>
+  <g transform="translate(0.000000,64.000000) scale(0.021333,-0.021333)">
+    <path d="M1345 2864 c-351 -53 -611 -180 -840 -409 -200 -200 -330 -445 -392
+-735 -25 -119 -25 -401 0 -520 121 -573 540 -999 1102 -1121 134 -29 344 -35
+483 -15 321 48 577 177 802 404 173 175 270 331 344 552 87 261 97 505 30 779
+-129 526 -549 928 -1094 1046 -73 16 -370 29 -435 19z" stroke="url(#iconGradient)" stroke-width="2" fill="none"/>
+    <path d="M1294 2684 c-94 -15 -287 -77 -324 -104 -14 -10 -28 -18 -33 -19 -41
+-5 -206 -123 -297 -213 -145 -144 -197 -218 -281 -403 -63 -138 -82 -232 -94
+-455 -7 -129 8 -260 40 -354 8 -23 15 -50 15 -60 0 -34 121 -268 178 -346 115
+-157 298 -310 461 -386 92 -43 112 -51 191 -72 160 -44 184 -47 360 -47 167 0
+181 2 305 34 72 18 131 37 133 42 2 5 9 9 16 9 31 0 210 100 297 166 76 58
+217 202 240 246 6 13 24 37 39 54 50 58 157 304 175 401 2 15 9 52 15 82 16
+87 14 344 -5 430 -74 350 -255 622 -535 805 -213 140 -436 205 -690 204 -69 0
+-162 -6 -206 -14z" stroke="url(#iconGradient)" stroke-width="2" fill="none"/>
+    <path d="M1377 2591 c-101 -40 -190 -134 -223 -233 -25 -77 -17 -207 19 -280
+93 -190 322 -267 510 -172 102 52 188 174 202 289 19 152 -73 318 -213 383
+-77 36 -221 42 -295 13z" stroke="url(#iconGradient)" stroke-width="2" fill="none"/>
+    <path d="M750 1218 l0 -603 232 2 233 2 5 183 c3 101 7 181 8 178 2 -3 29 -85
+61 -183 l59 -179 157 0 158 0 55 169 c30 92 57 175 61 183 3 8 7 -67 9 -167
+l2 -182 228 -3 c125 -2 230 -2 235 0 4 2 7 273 7 603 l0 599 -755 0 -755 0 0
+-602z" stroke="url(#iconGradient)" stroke-width="2" fill="none"/>
+  </g>
 </svg>
