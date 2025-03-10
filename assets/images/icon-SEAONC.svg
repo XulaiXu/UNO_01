@@ -1,0 +1,19 @@
+<svg width="40" height="40" viewBox="0 0 64 64" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <linearGradient id="bridgeGradient" x1="10" y1="20" x2="50" y2="50" gradientUnits="userSpaceOnUse">
+      <stop offset="0.259" stop-color="#219A74"/>
+      <stop offset="1" stop-color="#1D8B6A"/>
+    </linearGradient>
+  </defs>
+  
+  <!-- Bridge Deck -->
+  <path d="M12 48 H52" stroke="url(#bridgeGradient)" stroke-width="2" fill="none"/>
+  
+  <!-- Towers -->
+  <path d="M20 16 V48" stroke="url(#bridgeGradient)" stroke-width="2" fill="none"/>
+  <path d="M44 16 V48" stroke="url(#bridgeGradient)" stroke-width="2" fill="none"/>
+  
+  <!-- Suspension Cables -->
+  <path d="M20 16 Q32 32, 12 48" stroke="url(#bridgeGradient)" stroke-width="2" fill="none"/>
+  <path d="M44 16 Q32 32, 52 48" stroke="url(#bridgeGradient)" stroke-width="2" fill="none"/>
+</svg>
