@@ -219,7 +219,7 @@ document.addEventListener("DOMContentLoaded", function () {
   if (submitPassword && resumePassword) {
     submitPassword.addEventListener("click", function() {
       const password = resumePassword.value;
-      if (password === 'xulai') {
+      if (password === 'busyJade') {
         passwordModal.classList.remove("active");
         passwordModal.style.display = "none";
         resumePassword.value = ''; // Clear the password field
