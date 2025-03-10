@@ -603,30 +603,28 @@ main {
   background: var(--bg-gradient-onyx);
   border-radius: 14px;
   box-shadow: var(--shadow-1);
+  width: 60px;
+  height: 60px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
   overflow: hidden;
-  width: 60px;  /* Reduced size */
-  height: 60px; /* Reduced size */
+  padding: 0;
+}
+
+.testimonials-avatar-box img {
+  width: 36px;
+  height: 36px;
+  object-fit: contain;
+}
+
+.testimonials-avatar-box a {
+  width: 100%;
+  height: 100%;
   display: flex;
   justify-content: center;
   align-items: center;
   padding: 12px;
-}
-
-.testimonials-avatar-box img {
-  width: 100%;
-  height: 100%;
-  object-fit: contain;
-  border-radius: 14px;
-  padding: 8px;
-}
-
-.testimonials-avatar-box a {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  width: 100%;
-  height: 100%;
-  padding: 8px;
 }
 
 .testimonials-item-title { margin-bottom: 7px; }
