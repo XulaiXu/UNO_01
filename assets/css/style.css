@@ -1964,7 +1964,7 @@ textarea.form-input::-webkit-resizer { display: none; }
 
 #submit-password {
   background: var(--orange-yellow-crayola);
-  color: var(--eerie-black-1) !important;
+  color: var(--eerie-black-1);
   padding: 12px 24px;
   border-radius: 8px;
   font-size: var(--fs-6);
@@ -1979,6 +1979,7 @@ textarea.form-input::-webkit-resizer { display: none; }
 
 #submit-password:hover {
   background: var(--vegas-gold);
+  color: var(--eerie-black-1);
 }
 
 .password-modal .modal-close-btn {
