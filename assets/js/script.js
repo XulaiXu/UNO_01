@@ -166,6 +166,24 @@ document.addEventListener("DOMContentLoaded", function () {
     resumeSection.classList.remove("active");
   }
 
+  // Function to close password modal and reset navigation
+  const closePasswordModal = function() {
+    passwordModal.classList.remove("active");
+    passwordModal.style.display = "none";
+    // Reset any active navigation states
+    navigationLinks.forEach(link => {
+      if (link.innerHTML.toLowerCase() === 'resume') {
+        link.classList.remove("active");
+      }
+    });
+    // Ensure the previously active page remains visible
+    pages.forEach(page => {
+      if (page.classList.contains("active") && page.dataset.page !== 'resume') {
+        page.classList.add("active");
+      }
+    });
+  }
+
   // Password modal toggle function
   const passwordModalFunc = function () {
     passwordModal.classList.add("active");
@@ -178,42 +196,19 @@ document.addEventListener("DOMContentLoaded", function () {
 
   // Close password modal when clicking close button or overlay
   if (passwordCloseBtn) {
-    passwordCloseBtn.addEventListener("click", function() {
-      passwordModal.classList.remove("active");
-      passwordModal.style.display = "none";
-      // Reset any active navigation states
-      navigationLinks.forEach(link => {
-        if (link.innerHTML.toLowerCase() === 'resume') {
-          link.classList.remove("active");
-        }
-      });
-      // Ensure the previously active page remains visible
-      pages.forEach(page => {
-        if (page.classList.contains("active") && page.dataset.page !== 'resume') {
-          page.classList.add("active");
-        }
-      });
-    });
+    passwordCloseBtn.addEventListener("click", closePasswordModal);
   }
   
   if (passwordOverlay) {
-    passwordOverlay.addEventListener("click", function() {
-      passwordModal.classList.remove("active");
-      passwordModal.style.display = "none";
-      // Reset any active navigation states
-      navigationLinks.forEach(link => {
-        if (link.innerHTML.toLowerCase() === 'resume') {
-          link.classList.remove("active");
-        }
-      });
-      // Ensure the previously active page remains visible
-      pages.forEach(page => {
-        if (page.classList.contains("active") && page.dataset.page !== 'resume') {
-          page.classList.add("active");
-        }
-      });
-    });
+    passwordOverlay.addEventListener("click", closePasswordModal);
   }
+
+  // Add escape key listener to close modal
+  document.addEventListener("keydown", function(event) {
+    if (event.key === "Escape" && passwordModal.classList.contains("active")) {
+      closePasswordModal();
+    }
+  });
 
   // Handle password submission
   if (submitPassword && resumePassword) {
