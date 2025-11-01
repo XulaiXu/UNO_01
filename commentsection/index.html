@@ -1,0 +1,175 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div id="loading">Loading...</div>
+    <div id="error-message"></div>
+    <div id="comments-container">
+        <table id="comments-table">
+            <thead>
+                <tr>
+                    <th style="text-align: left;">Delete</th>
+                    <th style="text-align: left;">Timestamp</th>
+                    <th style="text-align: left;">Name</th>
+                    <th style="text-align: left;">Email</th>
+                    <th style="text-align: left;">Comment</th>
+                </tr>
+            </thead>
+            <tbody id="comments-body">
+                <!-- Comments will be inserted here -->
+            </tbody>
+        </table>
+    </div>
+
+    <script>
+        const GRAPHQL_ENDPOINT = 'https://wavafmnmhbdafdy5btcksaub34.appsync-api.us-west-1.amazonaws.com/graphql';
+        const API_KEY = 'da2-ok6fd2sxtbfcxdd7tcea2podzi';
+
+        // GraphQL query to list comments
+        const listQuery = `
+            query ListCommentSections {
+                listCommentSections {
+                    items {
+                        id
+                        name
+                        email
+                        userComment
+                        createdAt
+                    }
+                }
+            }
+        `;
+
+        // GraphQL mutation to delete a comment
+        const deleteCommentMutation = `
+            mutation DeleteCommentSection($id: ID!) {
+                deleteCommentSection(input: {id: $id}) {
+                    id
+                }
+            }
+        `;
+
+        async function deleteComment(commentId) {
+            try {
+                const response = await fetch(GRAPHQL_ENDPOINT, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'x-api-key': API_KEY,
+                        'Accept': 'application/json'
+                    },
+                    body: JSON.stringify({
+                        query: deleteCommentMutation,
+                        variables: { id: commentId }
+                    })
+                });
+
+                const result = await response.json();
+
+                if (result.data && result.data.deleteCommentSection) {
+                    // Refresh comments after successful deletion
+                    await fetchComments();
+                } else {
+                    throw new Error('Failed to delete comment');
+                }
+            } catch (error) {
+                console.error('Error deleting comment:', error);
+                alert('Error deleting comment. Please try again.');
+            }
+        }
+
+        async function fetchComments() {
+            const loadingDiv = document.getElementById('loading');
+            const errorDiv = document.getElementById('error-message');
+            const commentsBody = document.getElementById('comments-body');
+
+            try {
+                const response = await fetch(GRAPHQL_ENDPOINT, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'x-api-key': API_KEY,
+                        'Accept': 'application/json'
+                    },
+                    body: JSON.stringify({ query: listQuery })
+                });
+
+                const result = await response.json();
+
+                // Hide loading message
+                loadingDiv.style.display = 'none';
+
+                if (result.data && result.data.listCommentSections) {
+                    // Sort comments by createdAt in descending order (most recent first)
+                    const comments = result.data.listCommentSections.items
+                        .sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt));
+
+                    // Clear any previous error messages
+                    errorDiv.textContent = '';
+
+                    // If no comments
+                    if (comments.length === 0) {
+                        commentsBody.innerHTML = '<tr><td colspan="5">No comments yet.</td></tr>';
+                        return;
+                    }
+
+                    // Render comments
+                    commentsBody.innerHTML = comments.map(comment => `
+                        <tr>
+                            <td>
+                                <button onclick="deleteComment('${comment.id}')">X</button>
+                            </td>
+                            <td>${formatDate(comment.createdAt)}</td>
+                            <td>${escapeHtml(comment.name)}</td>
+                            <td>${escapeHtml(comment.email)}</td>
+                            <td>${escapeHtml(comment.userComment)}</td>
+                        </tr>
+                    `).join('');
+                } else {
+                    throw new Error('Unable to fetch comments');
+                }
+            } catch (error) {
+                console.error('Error fetching comments:', error);
+                loadingDiv.style.display = 'none';
+                errorDiv.textContent = 'Error loading comments. Please try again later.';
+            }
+        }
+
+        // Utility to escape HTML to prevent XSS
+        function escapeHtml(unsafe) {
+            return unsafe
+                .replace(/&/g, "&amp;")
+                .replace(/</g, "&lt;")
+                .replace(/>/g, "&gt;")
+                .replace(/"/g, "&quot;")
+                .replace(/'/g, "&#039;");
+        }
+
+        // Format date to be more readable
+        function formatDate(dateString) {
+            const date = new Date(dateString);
+            
+            // Ensure we have a valid date
+            if (isNaN(date.getTime())) {
+                return 'Invalid Date';
+            }
+
+            // Format date manually to ensure consistency
+            const year = date.getFullYear();
+            const month = String(date.getMonth() + 1).padStart(2, '0');
+            const day = String(date.getDate()).padStart(2, '0');
+            const hours = String(date.getHours()).padStart(2, '0');
+            const minutes = String(date.getMinutes()).padStart(2, '0');
+
+            return `${year}/${month}/${day} ${hours}:${minutes}`;
+        }
+
+        // Fetch comments when page loads
+        document.addEventListener('DOMContentLoaded', fetchComments);
+    </script>
+</body>
+</html>
